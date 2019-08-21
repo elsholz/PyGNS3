@@ -23,4 +23,3 @@ setup(
     description='Python implementation of the GNS3 API. Fork by elsholz from mvdwoord/PyGNS3',
     long_description=readme(),
 )
-todo
