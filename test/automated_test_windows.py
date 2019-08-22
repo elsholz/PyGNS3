@@ -4,6 +4,7 @@ import os
 import subprocess
 import shutil
 
+os.chdir('..')
 while True:
     subprocess.run('git pull'.split(' '))
     subprocess.run('which python > .python_dir.txt'.split(' '))
