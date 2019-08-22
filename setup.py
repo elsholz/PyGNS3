@@ -8,7 +8,7 @@ def readme():
 
 setup(
     name='pygns3-elsholz',
-    version='3.1',
+    version='3.11',
     classifiers=['Development Status :: 3 - Alpha',
                  'License :: OSI Approved :: MIT License',
                  'Programming Language :: Python :: 3.7',

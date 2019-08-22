@@ -10,7 +10,8 @@ import unittest
 import json
 from unittest import mock
 from pygns3 import *
-from test import mock_get
+from mock_api import mock_get
+
 
 TEST_PROJECT_NAME = 'Basic 4 Routers'
 

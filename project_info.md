@@ -59,12 +59,5 @@ Implement some sub components and methods on them. Then add some custom function
 provide command line visualization. Oh and telnet interaction of course. Perhaps some configuration diffing or
 synchronization? who knows.
 
-Plus also perhaps... improvements, error handling, docstrings etc etc etc... and other yak shaving.# TODO
+Plus also perhaps... improvements, error handling, docstrings etc etc etc... and other yak shaving.
 
-- [ ] update readme
-- [ ] remove unused/ deprecated files
-- [ ] separate development functionality from end-user functionality
-    - [ ] improve logging
-    - [ ] enable/ disable developer mode by provision of developer file
-- [ ] make a list of GNS3 API calls that have been or are yet to be implemented 
-    

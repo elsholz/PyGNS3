@@ -44,7 +44,7 @@ class GNS3API:
         platform_file_locations = {
 
             'Windows': [
-                os.path.join(os.getenv('APPDATA'), 'GNS3', 'gns3_server.ini'),
+                os.path.join(os.getenv('APPDATA') or '', 'GNS3', 'gns3_server.ini'),
             ],
             'Linux': [
                 os.path.join(str(Path.home()), '.config', 'GNS3', 'gns3_server.conf'),
@@ -75,7 +75,8 @@ class GNS3API:
             except ValueError:
                 config_file_location = str(input(
                     f"There is no default config file location for your operating "
-                    f"system ({system_platform}).\nPlease enter the configuration file location manually.\n"
+                    f"system ({system_platform}) or it does not exist."
+                    f"\nPlease enter the configuration file location manually.\n"
                     f"Example: /home/<YourUserName>/.config/GNS3/GNS3.conf\nIf you see this repeatedly you're "
                     f"entering an invalid Path.\n"))
 
