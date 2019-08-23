@@ -1,1 +1,1 @@
-cat ./project_info.md ./todo.md > README.md
+cat ./project_info.md ./todo.md ./endpoints.md > README.md
