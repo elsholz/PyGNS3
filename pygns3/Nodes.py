@@ -31,10 +31,7 @@ class GNS3Node:
     def __str__(self):
         items = self._node
         items['ports'] = str(len(items['ports']))
-        try:
-            items.pop('properties', None)
-        except KeyError:
-            pass
+        items.pop('properties', None)
         max_key_width = max(map(len, self._node.keys()))
         settings = '\n'.join([f'    {k:{max_key_width + 1}} {v}' for k, v in items.items()]) + '\n'
         return 'GNSNode settings:\n' + settings
