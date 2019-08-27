@@ -11,7 +11,6 @@ class GNS3Project:
         self._load_settings()
         # why not do the following inline? Why create another variable with a differnet name?
         self._drawings = GNS3API.get_request(f'/projects/{self.project_id}/drawings').json()
-        print(self._drawings)
         self.drawings = [GNS3Drawing(d) for d in self._drawings]
         self._links = GNS3API.get_request(f'/projects/{self.project_id}/links').json()
         # print('This it self.links:\n')
