@@ -10,8 +10,7 @@ import unittest
 import json
 from unittest import mock
 from pygns3 import *
-from mock_api import mock_get
-
+from test.mock_api import mock_get
 
 TEST_PROJECT_NAME = 'Basic 4 Routers'
 
@@ -48,7 +47,6 @@ class TestController(unittest.TestCase):
     def test_compute(self):
         self.assertTrue(self.compute.connected == True)
         self.assertTrue((self.compute.version == '2.0.3'))
-
 
     @mock.patch('pygns3.GNS3API.get_request', side_effect=mocked_gns3api_get_request)
     def test_project_by_name(self, patch):
