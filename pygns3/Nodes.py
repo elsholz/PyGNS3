@@ -62,6 +62,15 @@ class GNS3Node:
             print(f'Node stopped. NodeID: {self.node_id}')
         self.status = 'stopped'
 
+    def suspend(self):
+        GNS3API.post_request(f'/projects/{self.project_id}/nodes/{self.node_id}/suspend')
+        if GNS3API.console_log_level == GNS3API.DEBUG:
+            print(f'Node suspended. NodeID: {self.node_id}')
+        self.status = 'suspended'
+
+    def reload(self):
+        GNS3API.post_request(f'/projects/{self.project_id}/nodes/{self.node_id}/reload')
+
     def toggle(self):
         if self.status == 'stopped':
             self.start()
@@ -71,6 +80,7 @@ class GNS3Node:
             raise NotImplementedError('Node.toggle has faced an invalid status, '
                                       'that it has not yet been implemented to handle')
 
+    # TODO
     def execute(self, command):
         print(f'The command is: {command}')
         print(f'host: {self.console_host}')

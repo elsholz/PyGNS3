@@ -40,9 +40,8 @@ class GNS3API:
         http://docs.gns3.com/1f6uXq05vukccKdMCHhdki5MXFhV8vcwuGwiRvXMQvM0/
         """
 
-        # TODO: Add all possible configuration files for each operating system.
+        # TODO: Add all possible configuration file locations for each operating system.
         platform_file_locations = {
-
             'Windows': [
                 os.path.join(os.getenv('APPDATA') or '', 'GNS3', 'gns3_server.ini'),
             ],
@@ -90,7 +89,7 @@ class GNS3API:
             GNS3API.cred = HTTPBasicAuth(GNS3API.user, GNS3API.password)
             GNS3API.base = f'{GNS3API.protocol}://{GNS3API.host}:{str(GNS3API.port)}/v2'
         else:
-            raise Exception(f'An error occurred. The error might be related to an invalid configuration file.\n')
+            raise Exception(f'An error occurred. The error might be related to an invalid configuration file.\n',)
 
     @staticmethod
     def delete_request(path):

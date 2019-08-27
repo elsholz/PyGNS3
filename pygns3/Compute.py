@@ -1,5 +1,4 @@
 from pygns3.API import *
-from pygns3.Graphics import *
 from pygns3.Struct import *
 
 
@@ -40,3 +39,20 @@ class GNS3Compute:
                     images.append(GNS3Image(i))
 
         return images
+
+
+class GNS3Image:
+    """An image available on a Compute node for a given emulator"""
+
+    # TODO would also be easier if you could request an image by id. Check with devs.
+    def __init__(self, image):
+        self.image = image
+        self.__dict__.update(Struct(**image).__dict__)
+
+    def __str__(self):
+        max_key_width = max(map(len, self.image.keys()))
+        return 'GNS2Image settings:\n' + '\n'.join(
+            [f'    {k:{max_key_width}} {v}' for k, v in self.image.items()]) + '\n'
+
+    def __repr__(self):
+        return f'GNS3Image({self.image})'

@@ -4,8 +4,8 @@ from pygns3.Struct import Struct
 
 class GNS3VM:
     """Holds information on the GNS3 VM"""
-
     # TODO figure out what happens if the GNS3 VM is not configured / other issues
+
     def __init__(self):
         response = GNS3API.get_request(f'/gns3vm')
         if response.ok:

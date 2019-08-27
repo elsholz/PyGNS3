@@ -1,17 +1,20 @@
-
 from pygns3.Graphics import *
 from pygns3.Nodes import *
+import websockets
+
+
 class GNS3Project:
     """A project is a collection of nodes, links, drawings and snapshots."""
 
     def __init__(self, project_id):
         self.project_id = project_id
         self._load_settings()
+        # why not do the following inline? Why create another variable with a differnet name?
         self._drawings = GNS3API.get_request(f'/projects/{self.project_id}/drawings').json()
         self.drawings = [GNS3Drawing(d) for d in self._drawings]
         self._links = GNS3API.get_request(f'/projects/{self.project_id}/links').json()
-        #print('This it self.links:\n')
-        #print(len(self._links))
+        # print('This it self.links:\n')
+        # print(len(self._links))
         self.links = [GNS3Link(l) for l in self._links]
         self._nodes = GNS3API.get_request(f'/projects/{self.project_id}/nodes').json()
         self.nodes = [GNS3Node(n) for n in self._nodes]
@@ -26,10 +29,10 @@ class GNS3Project:
         setting_items = [f'    {k:{max_key_width}} {v}' for k, v in self._response.items()]
         settings = '\n'.join(setting_items) + '\n'
         return ('GNS3Project settings:\n' + settings + ''
-        f'    drawings     {len(self.drawings)}\n'
-        f'    links        {len(self.links)}\n'
-        f'    nodes        {len(self.nodes)}\n'
-        f'    snapshots    {len(self.snapshots)}\n')
+                                                       f'    drawings     {len(self.drawings)}\n'
+                                                       f'    links        {len(self.links)}\n'
+                                                       f'    nodes        {len(self.nodes)}\n'
+                                                       f'    snapshots    {len(self.snapshots)}\n')
 
     @classmethod
     def create(cls, name, **kwargs):
@@ -119,32 +122,55 @@ class GNS3Project:
         if GNS3API.console_log_level == GNS3API.DEBUG:
             print('All nodes have been suspended.')
 
-    def import_project(self):
+    @classmethod
+    def import_project(cls, project_id):
         """import a project"""
         # TODO Implement import_project function
-        pass
+        res = GNS3API.post_request(path=f'/projects/{project_id}/import', data={})
+        if res.ok:
+            return cls(project_id)
+        else:
+            raise Exception(f'Project could not be imported. E: {res.status_code}')
 
     def export(self):
-        """import a project"""
+        """export a project"""
         # TODO Implement export function
-        pass
+        res = GNS3API.get_request(f'/projects/{self.project_id}/export')
+        if res.ok:
+            return json.loads(res)
+        else:
+            raise Exception(f'Exporting project failed. E: {res.status_code}')
 
-    def duplicate(self):
-        """import a project"""
+    def duplicate(self, **kwargs):
+        """duplicate a project"""
         # TODO Implement duplicate function
-        pass
+        assert 'name' in kwargs.keys(), 'The name for the duplicate must be specified'
+        res = GNS3API.post_request(f'/projects/{self.project_id}/duplicate', data=json.dumps(kwargs))
+        if res.ok:
+            return GNS3Project(json.loads(res.content)['project_id'])
+        else:
+            raise Exception(f'The project could not be duplicated. E: {res.status_code}')
 
     def get_file(self, file):
         """Get a file from a project. Beware you have warranty to be able to access only to file
         global to the project (for example README.txt)
         """
         # TODO Implement get_file function
-        pass
+        res = GNS3API.get_request(path=f'/projects/{self.project_id}/files/{file}')
+        if res.ok:
+            return json.loads(res.content)
+        else:
+            raise Exception(f'The file could not be read. E: {res.content, res.status_code}')
 
-    def write_file(self, file):
+    def write_file(self, file_path, content):
         """Write a file to a project"""
         # TODO Implement write_file function
-        pass
+        # Question: Doesn't the file need some content to be written to it?
+        res = GNS3API.post_request(path=f'/projects/{self.project_id}/files/{file_path}', data=json.dumps({'content': content}))
+        if res.ok:
+            return
+        else:
+            raise Exception(f'File could not be written. E: {res.content, res.status_code}')
 
     @classmethod
     def from_name(cls, name):
@@ -156,7 +182,7 @@ class GNS3Project:
             if p['name'] == name:
                 # TODO check if project is opened in Controller
                 # Problem: No way to access controller yet.
-                #for exp in .projects:
+                # for exp in .projects:
                 #    if exp.project_id == p['project_id']:
                 #        return exp
                 return cls(p['project_id'])
@@ -164,6 +190,10 @@ class GNS3Project:
         raise FileNotFoundError(f'No project found with name {name}')
 
     # TODO check out notifications and how to implement
+    async def get_notifications(self):
+        async with websockets.connect(f'/v2/projects/{self.project_id}/notifications/ws') as ws:
+            notification = await ws.recv()
+            return notification
 
 
 class GNS3Snapshot:

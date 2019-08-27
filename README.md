@@ -64,11 +64,12 @@ Plus also perhaps... improvements, error handling, docstrings etc etc etc... and
 # TODO
 
 - [ ] update readme
-- [ ] remove unused/ deprecated files
+- [x] remove unused/ deprecated files
 - [ ] separate development functionality from end-user functionality
     - [ ] improve logging
     - [ ] enable/ disable developer mode by provision of developer file
-- [ ] make a list of GNS3 API calls that have been or are yet to be implemented 
+- [x] make a list of GNS3 API calls that have been or are yet to be implemented 
+- [ ] improve test coverage
     
 # Overview of Endpoints and their functionality
 
@@ -77,9 +78,9 @@ List of endpoints copied from [gns3-server documentation](https://gns3-server.re
 ### Appliance
 | Endpoint | Functionality | status |
 |---|---|---|
-| `/v2/appliances` | List appliances?  | × |<br>
-| `/v2/appliances/templates` | List appliance templates (which can be instantiated). Very detailed. | × |<br>
-| `/v2/projects/{project_id}/appliances/{appliance_id}` | Create node from appliance. | × |<br>
+| `/v2/appliances` | GET: List appliances.  | × |<br>
+| `/v2/appliances/templates` | GET: List appliance templates (which can be instantiated). Very detailed. | × |<br>
+| `/v2/projects/{project_id}/appliances/{appliance_id}` | POST: Create node from appliance. | × |<br>
 ### Compute
 | Endpoint | Functionality | status |
 |---|---|---|
